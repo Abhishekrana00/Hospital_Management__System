@@ -13,8 +13,8 @@ const HomePage = () => {
           <div className="nav-links">
             <a href="#home">Home</a>
             <a href="#services">Services</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
+            <Link to="/about">About</Link>
+            <Link to="/contact">Contact</Link>
             <Link to="/login" className="login-btn">Login</Link>
           </div>
         </nav>
@@ -26,7 +26,7 @@ const HomePage = () => {
           <p>Streamline your healthcare operations with our comprehensive management solution</p>
           <div className="hero-buttons">
             <button className="btn-primary">Get Started</button>
-            <button className="btn-secondary">Learn More</button>
+            <Link to="/about" className="btn-secondary">Learn More</Link>
           </div>
         </div>
         <div className="hero-image">
@@ -87,13 +87,13 @@ const HomePage = () => {
               <div className="access-icon">📋</div>
               <h3>Patient Registration</h3>
               <p>Register new patients quickly</p>
-              <button className="access-btn">Register Patient</button>
+              <Link to="/patients/register" className="access-btn">Register Patient</Link>
             </div>
             <div className="access-card">
               <div className="access-icon">📅</div>
               <h3>Book Appointment</h3>
               <p>Schedule patient appointments</p>
-              <button className="access-btn">Book Now</button>
+              <Link to="/appointments/book" className="access-btn">Book Now</Link>
             </div>
             <div className="access-card">
               <div className="access-icon">🔍</div>
@@ -146,8 +146,8 @@ const HomePage = () => {
               <ul>
                 <li><a href="#home">Home</a></li>
                 <li><a href="#services">Services</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><Link to="/about">About</Link></li>
+                <li><Link to="/contact">Contact</Link></li>
               </ul>
             </div>
             <div className="footer-section">
