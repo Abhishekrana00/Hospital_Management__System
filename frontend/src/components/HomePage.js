@@ -99,13 +99,13 @@ const HomePage = () => {
               <div className="access-icon">🔍</div>
               <h3>Search Records</h3>
               <p>Find patient information</p>
-              <button className="access-btn">Search</button>
+              <Link to="/search" className="access-btn">Search</Link>
             </div>
             <div className="access-card">
               <div className="access-icon">📈</div>
               <h3>View Reports</h3>
               <p>Access system reports</p>
-              <button className="access-btn">View Reports</button>
+              <Link to="/reports" className="access-btn">View Reports</Link>
             </div>
           </div>
         </div>

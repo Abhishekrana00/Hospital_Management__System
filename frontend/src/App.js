@@ -7,6 +7,8 @@ import About from './components/About';
 import Contact from './components/Contact';
 import PatientRegister from './components/PatientRegister';
 import AppointmentBook from './components/AppointmentBook';
+import SearchRecord from './components/SearchRecord';
+import ViewReport from './components/ViewReport';
 import './App.css';
 
 function App() {
@@ -21,6 +23,8 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/patients/register" element={<PatientRegister />} />
           <Route path="/appointments/book" element={<AppointmentBook />} />
+          <Route path="/search" element={<SearchRecord />} />
+          <Route path="/reports" element={<ViewReport />} />
         </Routes>
       </div>
     </Router>
