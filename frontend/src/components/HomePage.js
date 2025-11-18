@@ -1,24 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Navbar from './Navbar';
 import './HomePage.css';
 
 const HomePage = () => {
   return (
     <div className="homepage">
-      <header className="header">
-        <nav className="navbar">
-          <div className="nav-brand">
-            <h1>🏥 MedCare Hospital</h1>
-          </div>
-          <div className="nav-links">
-            <a href="#home">Home</a>
-            <a href="#services">Services</a>
-            <Link to="/about">About</Link>
-            <Link to="/contact">Contact</Link>
-            <Link to="/login" className="login-btn">Login</Link>
-          </div>
-        </nav>
-      </header>
+      <Navbar />
 
       <section className="hero">
         <div className="hero-content">

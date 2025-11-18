@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { authAPI, setToken } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 import './Auth.css';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,12 +21,14 @@ const Login = () => {
       ...prev,
       [name]: value
     }));
+    // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
         [name]: ''
       }));
     }
+    setMessage('');
   };
 
   const validateForm = () => {
@@ -36,8 +42,6 @@ const Login = () => {
 
     if (!formData.password) {
       newErrors.password = 'Password is required';
-    } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
     }
 
     setErrors(newErrors);
@@ -46,23 +50,37 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    setMessage('');
+
     if (!validateForm()) {
       return;
     }
 
     setIsLoading(true);
-    
+
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const response = await authAPI.login(formData.email, formData.password);
+
+      // Store token
+      if (response.data && response.data.token) {
+        setToken(response.data.token);
+      }
+
+      // Update auth context
+      if (response.data && response.data.user) {
+        login(response.data.user, response.data.token);
+      }
+
+      setMessage('Login successful! Redirecting...');
       
-      console.log('Login attempt:', formData);
-      
-      alert('Login successful! (This is a demo)');
-      
+      // Redirect to profile after 1 second
+      setTimeout(() => {
+        navigate('/profile');
+      }, 1000);
+
     } catch (error) {
       console.error('Login error:', error);
-      alert('Login failed. Please try again.');
+      setMessage(error.message || 'Login failed. Please check your credentials.');
     } finally {
       setIsLoading(false);
     }
@@ -80,6 +98,12 @@ const Login = () => {
           <p>Sign in to your account to continue</p>
         </div>
 
+        {message && (
+          <div className={`message ${message.includes('successful') ? 'success' : 'error'}`}>
+            {message}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
             <label htmlFor="email">Email Address</label>
@@ -91,6 +115,7 @@ const Login = () => {
               onChange={handleChange}
               className={errors.email ? 'error' : ''}
               placeholder="Enter your email"
+              disabled={isLoading}
             />
             {errors.email && <span className="error-message">{errors.email}</span>}
           </div>
@@ -105,6 +130,7 @@ const Login = () => {
               onChange={handleChange}
               className={errors.password ? 'error' : ''}
               placeholder="Enter your password"
+              disabled={isLoading}
             />
             {errors.password && <span className="error-message">{errors.password}</span>}
           </div>
@@ -123,14 +149,7 @@ const Login = () => {
             className="auth-button"
             disabled={isLoading}
           >
-            {isLoading ? (
-              <>
-                <span className="spinner"></span>
-                Signing In...
-              </>
-            ) : (
-              'Sign In'
-            )}
+            {isLoading ? 'Signing In...' : 'Sign In'}
           </button>
         </form>
 
